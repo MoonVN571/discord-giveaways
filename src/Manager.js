@@ -684,7 +684,7 @@ class GiveawaysManager extends EventEmitter {
                 console.log(`[Giveaway] Shard ID: ${shardId}, Guild ID: ${guildId}`);
 
                 const shardGiveaways = rawGiveaways.filter((giveaway) => {
-                    return shardId === ShardClientUtil.shardIdForGuildId(giveaway.guildId, shardCount)
+                    return shardId === Discord.ShardClientUtil.shardIdForGuildId(giveaway.guildId, shardCount)
                 });
 
                 console.log(`Loaded ${shardGiveaways.length} giveaways from database on shard ${shardId}`);
