@@ -679,7 +679,7 @@ class GiveawaysManager extends EventEmitter {
                 const guild = this.client.guilds.cache.get(giveaway.guildId);
                 return !!guild;
             });
-            console.log(`[GIVEAWAYS] Loaded ${shardGiveaways.length} giveaways from database on shard ${shardId}`);
+            console.log(`[GIVEAWAYS] Loaded ${shardGiveaways.length} giveaways from database on ${this.client.guilds.cache.size} guilds.`);
             rawGiveaways = shardGiveaways;
         }
 
