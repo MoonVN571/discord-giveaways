@@ -671,6 +671,28 @@ class GiveawaysManager extends EventEmitter {
 
         await (this.client.readyAt ? Promise.resolve() : new Promise((resolve) => this.client.once('shardReady', resolve)));
 
+        const shardCount = this.client.cluster.info.TOTAL_SHARDS;
+        console.log(`[Giveaway] Shard count: ${shardCount}`);
+        console.log(`[Giveaway] Guilds: ${this.client.guilds.cache.size}`);
+        if (this.client.guilds.cache.size) {
+            const guildId = this.client.guilds.cache.random()?.id;
+            if (guildId) {
+                const shardId = ShardClientUtil.shardIdForGuildId(
+                    guildId,
+                    shardCount,
+                );
+                console.log(`[Giveaway] Shard ID: ${shardId}, Guild ID: ${guildId}`);
+
+                const shardGiveaways = rawGiveaways.filter((giveaway) => {
+                    return shardId === ShardClientUtil.shardIdForGuildId(giveaway.guildId, shardCount)
+                });
+
+                console.log(`Loaded ${shardGiveaways.length} giveaways from database on shard ${shardId}`);
+
+                rawGiveaways = shardGiveaways;
+            }
+        }
+
         rawGiveaways.forEach((giveaway) => this.giveaways.push(new Giveaway(this, giveaway)));
 
         setInterval(() => {
