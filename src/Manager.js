@@ -672,11 +672,13 @@ class GiveawaysManager extends EventEmitter {
         await (this.client.readyAt ? Promise.resolve() : new Promise((resolve) => this.client.once('ready', resolve)));
 
         // Filter giveaways for each shard
-        if (this.client.shard && this.client.guilds.cache.size) {
+        const guild = this.client.guilds.cache.first();
+        if (guild.shardId && this.client.guilds.cache.size) {
             const shardId = Discord.ShardClientUtil.shardIdForGuildId(
                 this.client.guilds.cache.first().id,
                 this.client.shard.count
             );
+            console.log("[GIVEAWAYS] Syncing giveaways for shard " + shardId + " with " + rawGiveaways.length + " giveaways.");
             rawGiveaways = rawGiveaways.filter(
                 (g) => shardId === Discord.ShardClientUtil.shardIdForGuildId(g.guildId, this.client.shard.count)
             );
