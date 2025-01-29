@@ -677,7 +677,7 @@ class GiveawaysManager extends EventEmitter {
         if (this.client.guilds.cache.size) {
             const guildId = this.client.guilds.cache.random()?.id;
             if (guildId) {
-                const shardId = ShardClientUtil.shardIdForGuildId(
+                const shardId = Discord.ShardClientUtil.shardIdForGuildId(
                     guildId,
                     shardCount,
                 );
